@@ -1620,6 +1620,11 @@ static void spacc_tasklet_kill(void *data)
 	tasklet_kill(data);
 }
 
+static void spacc_tasklet_kill(void *data)
+{
+	tasklet_kill(data);
+}
+
 static int spacc_probe(struct platform_device *pdev)
 {
 	int i, err, ret = -EINVAL;
