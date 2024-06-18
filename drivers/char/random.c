@@ -2008,7 +2008,6 @@ static int random_fasync(int fd, struct file *filp, int on)
 }
 
 const struct file_operations random_fops = {
-	.read  = random_read,
 	#ifdef CONFIG_SRANDOM
 	.read  = sdevice_read,
 	.write = sdevice_write,
