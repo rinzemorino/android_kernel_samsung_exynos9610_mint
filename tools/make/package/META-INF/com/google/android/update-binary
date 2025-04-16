@@ -320,11 +320,11 @@ int2ver() {
   fi;
 }
 do_versioncheck() {
-  [ "$(file_getprop anykernel.sh supported.versions)" ] || return 1;
+  [ "$(file_getprop mint.prop ro.mint.droid.platform)" ] || return 1;
   local android_ver hi_ver lo_ver parsed_ver supported supported_ver;
   ui_print "  - Checking Android version...";
   supported_ver=$(file_getprop mint.prop ro.mint.droid.platform | tr -d '[:space:]');
-  android_ver=$(file_getprop /system/build.prop ro.build.version.release);
+  android_ver=$(file_getprop /vendor/build.prop ro.vendor.build.version.release);
   parsed_ver=$(int2ver $android_ver);
   if echo $supported_ver | grep -q '-'; then
     lo_ver=$(int2ver "$(echo $supported_ver | cut -d- -f1)");
