@@ -162,15 +162,12 @@ SET_ZIPNAME() {
         MINT_VARIANT="OneUI"
         ONEUI_VERSION="$((BUILD_ANDROID_PLATFORM - 8))"
         ;;
-    recovery)
-        MINT_VARIANT="Recovery"
-        ;;
     esac
 
     if [[ $BUILD_KERNEL_BRANCH == mainline ]]; then
-        ZIP_NAME="Mint-${MINT_VERSION}.A${BUILD_ANDROID_PLATFORM}.${MINT_VARIANT}${ONEUI_VERSION}${ROOT_SOLUTION}_${BUILD_DEVICE_NAME^}.zip"
+        FILE_NAME="Mint-${MINT_VERSION}.A${BUILD_ANDROID_PLATFORM}.${MINT_VARIANT}${ONEUI_VERSION}${ROOT_SOLUTION}_${BUILD_DEVICE_NAME^}.zip"
     else
-        ZIP_NAME="MintBeta-${MINT_VERSION}.A${BUILD_ANDROID_PLATFORM}.${MINT_VARIANT}${ONEUI_VERSION}-${MINT_SELINUX}${ROOT_SOLUTION}_${BUILD_DEVICE_NAME^}.${MINT_TYPE}.zip"
+        FILE_NAME="MintBeta-${MINT_VERSION}.A${BUILD_ANDROID_PLATFORM}.${MINT_VARIANT}${ONEUI_VERSION}-${MINT_SELINUX}${ROOT_SOLUTION}_${BUILD_DEVICE_NAME^}.${MINT_TYPE}.zip"
     fi
 }
 
@@ -313,7 +310,7 @@ BUILD_PACKAGE() {
     } >> "$TMP_DIR/mint.prop"
 
     # Create zip file
-    cd "$TMP_DIR" && zip -9 -r "$OUT_DIR/$ZIP_NAME" ./* 2>&1 | sed 's/^/     /'
+    cd "$TMP_DIR" && zip -9 -r "$OUT_DIR/$FILE_NAME" ./* 2>&1 | sed 's/^/     /'
 }
 
 show_usage() {
@@ -429,7 +426,13 @@ export KCONFIG_BUILTINCONFIG="$BUILD_CONFIG_DIR/exynos9610-${BUILD_DEVICE_NAME}_
 
 SET_ANDROIDVERSION
 SET_LOCALVERSION
-SET_ZIPNAME
+
+if [[ $BUILD_VARIANT == recovery ]]; then
+    MINT_VARIANT="Recovery"
+    FILE_NAME="Image"
+else
+    SET_ZIPNAME
+fi
 
 # Print build information
 script_echo "I: Selected device:    $BUILD_DEVICE_NAME"
@@ -437,7 +440,7 @@ script_echo "   Selected variant:   $MINT_VARIANT"
 script_echo "   Kernel version:     $VERSION.$PATCHLEVEL.$SUBLEVEL"
 script_echo "   Android version:    $BUILD_ANDROID_PLATFORM"
 script_echo "   KernelSU-enabled:   $BUILD_KERNEL_KSU"
-script_echo "   Output ZIP file:    $OUT_DIR/$ZIP_NAME"
+script_echo "   Output file:        $OUT_DIR/$FILE_NAME"
 
 # Setup build environment
 rm -rf "$TMP_DIR"
@@ -512,7 +515,7 @@ script_echo " "
 script_echo "I: Yay! Kernel build is done!"
 script_echo "   Kernel build took ${BUILD_TIME_STR}"
 script_echo "   File can be found at:"
-script_echo "   \"$OUT_DIR/$ZIP_NAME\""
+script_echo "   \"$OUT_DIR/$FILE_NAME\""
 rm -f "$BUILD_CONFIG_DIR/$BUILD_DEVICE_TMP_CONFIG"
 sleep 5
 
