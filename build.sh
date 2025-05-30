@@ -449,7 +449,11 @@ mkdir -p "$TMP_DIR"
 VERIFY_TOOLCHAIN
 VERIFY_DEFCONFIG
 
-git submodule update --init "$TOP/KernelSU"
+export $BUILD_DEVICE_NAME
+export $MINT_VARIANT
+export $BUILD_KERNEL_KSU
+export $BUILD_KERNEL_PERMISSIVE
+source ksu.sh
 
 if $BUILD_KERNEL_CI; then
 	export KBUILD_BUILD_USER="Clembot"
