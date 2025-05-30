@@ -39,7 +39,6 @@ jobs:
           export SUSFS=${{ matrix.susfs }}
           export SELINUX=${{ matrix.selinux }}
           export DEVICE=${{ matrix.device }}
-          chmod +x ./build_all.sh
           ./build.sh -d $DEVICE -v oneui $KSU $SUSFS $SELINUX
 
       - name: Upload build artifact
