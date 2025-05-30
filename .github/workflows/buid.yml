@@ -43,5 +43,5 @@ jobs:
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.device }}-${{ matrix.ksu }}-${matrix.susfs}}-${{ matrix.selinux }}
+          name: ${{ matrix.device }}-${{ matrix.ksu }}-${{ matrix.susfs }}-${{ matrix.selinux }}
           path: "out/"
