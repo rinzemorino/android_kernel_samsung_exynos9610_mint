@@ -713,14 +713,6 @@ ovl_posix_acl_xattr_get(const struct xattr_handler *handler,
 }
 
 static int __maybe_unused
-__ovl_posix_acl_xattr_get(const struct xattr_handler *handler,
-			  struct dentry *dentry, struct inode *inode,
-			  const char *name, void *buffer, size_t size)
-{
-	return __ovl_xattr_get(dentry, inode, handler->name, buffer, size);
-}
-
-static int __maybe_unused
 ovl_posix_acl_xattr_set(const struct xattr_handler *handler,
 			struct dentry *dentry, struct inode *inode,
 			const char *name, const void *value,
@@ -800,13 +792,6 @@ static int ovl_other_xattr_get(const struct xattr_handler *handler,
 	return ovl_xattr_get(dentry, inode, name, buffer, size);
 }
 
-static int __ovl_other_xattr_get(const struct xattr_handler *handler,
-				 struct dentry *dentry, struct inode *inode,
-				 const char *name, void *buffer, size_t size)
-{
-	return __ovl_xattr_get(dentry, inode, name, buffer, size);
-}
-
 static int ovl_other_xattr_set(const struct xattr_handler *handler,
 			       struct dentry *dentry, struct inode *inode,
 			       const char *name, const void *value,
@@ -820,7 +805,6 @@ ovl_posix_acl_access_xattr_handler = {
 	.name = XATTR_NAME_POSIX_ACL_ACCESS,
 	.flags = ACL_TYPE_ACCESS,
 	.get = ovl_posix_acl_xattr_get,
-	.__get = __ovl_posix_acl_xattr_get,
 	.set = ovl_posix_acl_xattr_set,
 };
 
@@ -829,7 +813,6 @@ ovl_posix_acl_default_xattr_handler = {
 	.name = XATTR_NAME_POSIX_ACL_DEFAULT,
 	.flags = ACL_TYPE_DEFAULT,
 	.get = ovl_posix_acl_xattr_get,
-	.__get = __ovl_posix_acl_xattr_get,
 	.set = ovl_posix_acl_xattr_set,
 };
 
@@ -842,7 +825,6 @@ static const struct xattr_handler ovl_own_xattr_handler = {
 static const struct xattr_handler ovl_other_xattr_handler = {
 	.prefix	= "", /* catch all */
 	.get = ovl_other_xattr_get,
-	.__get = __ovl_other_xattr_get,
 	.set = ovl_other_xattr_set,
 };
 
