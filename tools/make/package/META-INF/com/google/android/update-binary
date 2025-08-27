@@ -329,29 +329,7 @@ do_variantcheck() {
   [ "$(file_getprop mint.prop ro.mint.droid.variant)" ] || return 1;
   local oneui platform kernel_platform supported;
   ui_print "  - Checking kernel variant...";
-  oneui=$(file_getprop "/system_root/system/build.prop" "ro.build.PDA");
-  kernel_platform=$(file_getprop mint.prop ro.mint.droid.variant | $BB tr 'A-Z' 'a-z');
-
-  # If ro.build.PDA is not blank, it's a One UI ROM.
-  if [ ! -z $oneui ]; then
-    platform=oneui
-  else
-    platform=aosp
-  fi
-
-  if [ "$kernel_platform" == "$platform" ]; then
-    supported=1;
-  fi;
-
-  if [ "$supported" ]; then
-    ui_print "    - Your current ROM is: ${platform}";
-  else
-    ui_print "    - Error: This Mint build is for ${kernel_platform}!";
-    ui_print "      Your current ROM is: ${platform}" " ";
-    ui_print "      Check if you have downloaded the correct";
-    ui_print "      version for the ROM you have installed." " ";
-    abort "      Aborting installation...";
-  fi;
+  supported=1;
 }
 do_levelcheck() {
   [ "$(file_getprop anykernel.sh supported.patchlevels)" ] || return 1;
