@@ -571,7 +571,7 @@ ui_print "  for the Galaxy $KERNEL_DEVICE...";
 
 CORE=$(grep -oE 'ak.*core.sh' anykernel.sh);
 [ -f tools/$CORE ] || ln -s $AKHOME/tools/ak*-core.sh $AKHOME/tools/$CORE;
-ash anykernel.sh;
+sh anykernel.sh;
 if [ $? != 0 ]; then
   abort;
 fi;
