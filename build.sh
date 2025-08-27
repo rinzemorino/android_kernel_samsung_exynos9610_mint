@@ -131,11 +131,8 @@ SET_ANDROIDVERSION() {
     echo "CONFIG_MINT_PLATFORM_VERSION=$BUILD_ANDROID_PLATFORM" >> "$BUILD_CONFIG_DIR/$BUILD_DEVICE_TMP_CONFIG"
 }
 SET_LOCALVERSION() {
-    case "$BUILD_KERNEL_BRANCH" in
-    mainline) export LOCALVERSION=" - Mint $KERNEL_BUILD_VERSION" ;;
-    user)     export LOCALVERSION=" - Mint-user $BUILD_DATE" ;;
-    *)        export LOCALVERSION=" - Mint Beta $GITHUB_RUN_NUMBER"
-    esac
+ local commit_hash=$(git rev-parse --short HEAD)
+ export LOCALVERSION=" - Mint@$commit_hash"
 }
 SET_ZIPNAME() {
     local MINT_TYPE MINT_SELINUX ONEUI_VERSION ROOT_SOLUTION
